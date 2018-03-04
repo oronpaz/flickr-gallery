@@ -11,6 +11,7 @@ class Gallery extends React.Component {
 
   constructor(props) {
     super(props);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     this.state = {
       images: [],
       galleryWidth: this.getGalleryWidth()
@@ -50,17 +51,33 @@ class Gallery extends React.Component {
     this.setState({
       galleryWidth: document.body.clientWidth
     });
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState({galleryWidth: this.getGalleryWidth()});
   }
 
   componentWillReceiveProps(props) {
     this.getImages(props.tag);
   }
 
+  deleteImageHandle(i) {
+    const newImages = this.state.images.slice(0);
+    newImages.splice(i,1);
+    this.setState({images: newImages});
+  }
+
   render() {
+    const {images, galleryWidth} = this.state; 
     return (
       <div className="gallery-root">
-        {this.state.images.map(dto => {
-          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={this.state.galleryWidth}/>;
+        {images.map((dto, i) => {
+          return <Image key={'image-' + dto.id} dto={dto} galleryWidth={galleryWidth} i={i} deleteImage={() => this.deleteImageHandle(i)}/>;
         })}
       </div>
     );
