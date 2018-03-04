@@ -53,7 +53,7 @@ class Image extends React.Component {
   }
 
   render() {
-    const {size, rotateDeg, isOpen} = this.state; 
+    const {size, rotateDeg, isOpen} = this.state;
     return (
       <div
         className="image-root"

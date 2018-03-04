@@ -73,7 +73,7 @@ class Gallery extends React.Component {
   }
 
   render() {
-    const {images, galleryWidth} = this.state; 
+    const {images, galleryWidth} = this.state;
     return (
       <div className="gallery-root">
         {images.map((dto, i) => {
